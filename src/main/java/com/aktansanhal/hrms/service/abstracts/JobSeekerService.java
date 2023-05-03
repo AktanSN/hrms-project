@@ -1,10 +1,17 @@
 package com.aktansanhal.hrms.service.abstracts;
 
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface JobSeekerService {
-    JobSeeker createJobSeeker(JobSeeker jobSeeker);
+    JobSeeker getJobSeekerById(Long jobSeekerId);
     List<JobSeeker> getAllJobSeekers();
+
+    JobSeeker createJobSeeker(JobSeeker jobSeeker);
+
+    Long deleteJobSeekerById(Long jobSeekerId);
+
+    JobSeeker updateJobSeekerById(Long jobSeekerId, JobSeeker jobSeeker);
 }

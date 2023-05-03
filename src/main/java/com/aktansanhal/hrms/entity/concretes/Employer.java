@@ -46,8 +46,8 @@ public class Employer {
     public Employer() {
     }
 
-    public Employer(long id, @NotNull String companyName, @NotNull String website, @NotNull String email, @NotNull String phoneNumber, @NotNull String password, String passwordRepeat) {
-        this.id = id;
+    public Employer(@NotNull String companyName, @NotNull String website, @NotNull String email, @NotNull String phoneNumber, @NotNull String password, String passwordRepeat) {
+
         this.companyName = companyName;
         this.website = website;
         this.email = email;

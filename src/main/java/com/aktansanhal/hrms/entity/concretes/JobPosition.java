@@ -1,10 +1,12 @@
 package com.aktansanhal.hrms.entity.concretes;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 @Entity
 @Table(name = "job_positions")
+@Data
 public class JobPosition {
 
 
@@ -20,8 +22,7 @@ public class JobPosition {
     public JobPosition() {
     }
 
-    public JobPosition(long id, @NotNull String positionName) {
-        this.id = id;
+    public JobPosition(@NotNull String positionName) {
         this.positionName = positionName;
     }
 }

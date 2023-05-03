@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Table(name = "job_seekers")
 @Data
 public class JobSeeker {
+
+    // @Notblank
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -49,8 +51,8 @@ public class JobSeeker {
     public JobSeeker() {
     }
 
-    public JobSeeker(long id, @NotNull String firstName, @NotNull String lastName, @NotNull String nationalNumber, @NotNull LocalDate birthYear, @NotNull String email, @NotNull String password, String passwordRepeat) {
-        this.id = id;
+    public JobSeeker(@NotNull String firstName, @NotNull String lastName, @NotNull String nationalNumber, @NotNull LocalDate birthYear, @NotNull String email, @NotNull String password, String passwordRepeat) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationalNumber = nationalNumber;
