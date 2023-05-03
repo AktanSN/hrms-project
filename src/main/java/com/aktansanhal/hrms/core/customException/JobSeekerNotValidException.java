@@ -1,4 +1,4 @@
-package com.aktansanhal.hrms.customException;
+package com.aktansanhal.hrms.core.customException;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageNotWritableException;

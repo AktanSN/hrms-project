@@ -1,4 +1,4 @@
-package com.aktansanhal.hrms.error;
+package com.aktansanhal.hrms.core.error;
 
 public class JobSeekerError {
 

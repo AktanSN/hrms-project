@@ -1,15 +1,10 @@
 package com.aktansanhal.hrms.rest;
 
 
-import com.aktansanhal.hrms.customException.JobSeekerNotValidException;
+import com.aktansanhal.hrms.core.customException.JobSeekerNotValidException;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
-import jakarta.validation.Valid;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

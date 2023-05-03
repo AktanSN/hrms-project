@@ -1,10 +1,9 @@
-package com.aktansanhal.hrms.globalExceptionHandler;
+package com.aktansanhal.hrms.core.globalExceptionHandler;
 
-import com.aktansanhal.hrms.customException.JobSeekerNotValidException;
-import com.aktansanhal.hrms.error.JobSeekerError;
+import com.aktansanhal.hrms.core.customException.JobSeekerNotValidException;
+import com.aktansanhal.hrms.core.error.JobSeekerError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
