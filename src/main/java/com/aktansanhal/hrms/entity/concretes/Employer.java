@@ -1,7 +1,9 @@
 package com.aktansanhal.hrms.entity.concretes;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Email;
@@ -10,6 +12,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "employers")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employer {
 
     @Id
@@ -43,6 +47,7 @@ public class Employer {
     @Transient
     private String passwordRepeat;
 
+    /*
     public Employer() {
     }
 
@@ -55,4 +60,6 @@ public class Employer {
         this.password = password;
         this.passwordRepeat = passwordRepeat;
     }
+    
+     */
 }
