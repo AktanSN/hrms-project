@@ -1,5 +1,6 @@
 package com.aktansanhal.hrms.rest;
 
+import com.aktansanhal.hrms.core.utilities.error.*;
 import com.aktansanhal.hrms.entity.concretes.Employer;
 import com.aktansanhal.hrms.service.abstracts.EmployerService;
 import org.apache.coyote.Response;
@@ -25,38 +26,48 @@ public class EmployerController {
 
 
     @GetMapping("/Employers")
-    public List<Employer> getAllEmployers(){
-        return employerService.getAllEmployers();
+    public DataResult<List<Employer>> getAllEmployers(){
+
+        return new SuccessDataResult<List<Employer>>("Listeleme Başarılı", employerService.getAllEmployers());
     }
 
     @GetMapping("/Employers/{employerId}")
-    public Employer getEmployerById(@PathVariable Long employerId){
+    public DataResult<Employer> getEmployerById(@PathVariable Long employerId){
         Employer employer = employerService.getEmployerById(employerId);
 
         if(employer == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            return new ErrorDataResult<Employer>("Employer bulunamadı", null);
         }
 
-        return employer;
+        return new SuccessDataResult<Employer>("İşlem başarılı",employer );
     }
 
     @PostMapping("/Employers")
-    public ResponseEntity<Object> createEmployer(@RequestBody Employer employer){
-        employerService.createEmployer(employer);
-
-        return ResponseEntity.created(null).build();
+    public DataResult<Employer> createEmployer(@RequestBody Employer employer){
+        Employer isSuccess = employerService.createEmployer(employer);
+        if(isSuccess == null){
+            return new ErrorDataResult<Employer>("Kayıt oluşturulamadı", null);
+        }
+        return new SuccessDataResult<Employer>("Kayıt başarılı",isSuccess);
     }
 
     @DeleteMapping("/Employers/{employerId}")
-    public ResponseEntity<Object> deleteEmployerById(@PathVariable Long employerId){
+    public Result deleteEmployerById(@PathVariable Long employerId){
 
-        employerService.deleteEmloyerById(employerId);
-        return ResponseEntity.noContent().build();
+        Long isSuccess = employerService.deleteEmloyerById(employerId);
+        if(isSuccess == null){
+            return new ErrorResult("İşlem başarısız");
+        }
+        return new SuccessResult("Silme işlemi başarılı");
 
     }
 
     @PutMapping("/Employers/{employerId}")
-    public Employer updateEmployerById(@PathVariable Long employerId,@RequestBody Employer employer){
-        return employerService.updateEmployerById(employerId,employer);
+    public DataResult<Employer> updateEmployerById(@PathVariable Long employerId,@RequestBody Employer employer){
+        Employer isSuccess = employerService.updateEmployerById(employerId,employer);
+        if(isSuccess == null){
+            return new ErrorDataResult<Employer>("İşlem başarısız",null);
+        }
+        return new SuccessDataResult<Employer>("Güncelleme işlemi başarılı", isSuccess);
     }
 }

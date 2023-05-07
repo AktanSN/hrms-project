@@ -47,7 +47,7 @@ public class JobSeekerController {
 
         JobSeeker value = jobSeekerService.createJobSeeker(jobSeeker);
         if(value != null){
-            return new SuccessDataResult<JobSeeker>("İşlem başarılı", value);
+            return new SuccessDataResult<JobSeeker>("Kayıt işlemi başarılı", value);
         }
         return new ErrorDataResult<JobSeeker>("İşlem başarısız");
     }

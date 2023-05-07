@@ -1,5 +1,6 @@
 package com.aktansanhal.hrms.rest;
 
+import com.aktansanhal.hrms.core.utilities.error.*;
 import com.aktansanhal.hrms.entity.concretes.Employer;
 import com.aktansanhal.hrms.entity.concretes.JobPosition;
 import com.aktansanhal.hrms.service.abstracts.JobPositionService;
@@ -24,40 +25,50 @@ public class JobPositionController {
 
 
     @GetMapping("/JobPositions")
-    public List<JobPosition> getAllJobPositions(){
-        return jobPositionService.getAllJobPositions();
+    public DataResult<List<JobPosition>> getAllJobPositions(){
+        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı",jobPositionService.getAllJobPositions());
     }
 
     @GetMapping("/JobPositions/{jobPositionId}")
-    public JobPosition getJobPositionById(@PathVariable Long jobPositionId){
+    public DataResult<JobPosition> getJobPositionById(@PathVariable Long jobPositionId){
         JobPosition jobPosition = jobPositionService.getJobPositionById(jobPositionId);
         if(jobPosition == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            return new ErrorDataResult<JobPosition>("JobPosition bulunamadı",null);
         }
 
-        return jobPosition;
+        return new SuccessDataResult<JobPosition>("İşlem Başarılı", jobPosition);
     }
 
     @PostMapping("/JobPositions")
-    public ResponseEntity<Object> createJobPosition(@RequestBody JobPosition jobPosition){
+    public DataResult<JobPosition> createJobPosition(@RequestBody JobPosition jobPosition){
 
-        jobPositionService.createJobPosition(jobPosition);
+        JobPosition isSuccess = jobPositionService.createJobPosition(jobPosition);
+        if(isSuccess == null){
+            return new ErrorDataResult<JobPosition>("Kayıt oluşturulamadı", null);
+        }
 
-        return ResponseEntity.created(null).build();
+        return new SuccessDataResult<JobPosition>("Kayıt başarılı", isSuccess);
 
     }
 
     @DeleteMapping("/JobPositions/{jobPositionId}")
-    public ResponseEntity<Object> deleteJobPositionById(@PathVariable Long jobPositionId){
+    public Result deleteJobPositionById(@PathVariable Long jobPositionId){
 
-        jobPositionService.deleteJobPositionById(jobPositionId);
-        return ResponseEntity.noContent().build();
+        Long isSuccess = jobPositionService.deleteJobPositionById(jobPositionId);
+        if(isSuccess == null){
+            return new ErrorResult("İşlem başarısız");
+        }
+        return new SuccessResult("Silme işlemi başarılı");
 
     }
 
     @PutMapping("/JobPositions/{jobPositionId}")
-    public JobPosition updateJobPositionById(@PathVariable Long jobPositionId, @RequestBody JobPosition jobPosition){
+    public DataResult<JobPosition> updateJobPositionById(@PathVariable Long jobPositionId, @RequestBody JobPosition jobPosition){
 
-        return jobPositionService.updateJobPositionById(jobPositionId,jobPosition);
+        JobPosition isSuccess = jobPositionService.updateJobPositionById(jobPositionId,jobPosition);
+        if(isSuccess == null){
+            return new ErrorDataResult<JobPosition>("İşlem başarısız", null);
+        }
+        return new SuccessDataResult<JobPosition>("Güncelleme işlemi başarılı", isSuccess);
     }
 }
