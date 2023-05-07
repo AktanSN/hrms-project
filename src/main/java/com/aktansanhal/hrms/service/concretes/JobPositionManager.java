@@ -40,6 +40,11 @@ public class JobPositionManager implements JobPositionService {
 
     @Override
     public JobPosition createJobPosition(JobPosition jobPosition) {
+        Optional<JobPosition> jobPositions = getAllJobPositions().stream().filter(jobPosition1 -> jobPosition1.getPositionName().equals(jobPosition.getPositionName())).findFirst();
+        if(jobPositions.isPresent()){
+            return null;
+        }
+
         return jobPositionDao.save(jobPosition);
     }
 

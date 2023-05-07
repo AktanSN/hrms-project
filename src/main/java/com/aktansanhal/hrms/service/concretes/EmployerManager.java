@@ -39,7 +39,12 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public Employer createEmployer(Employer employer) {
-        return employerDao.save(employer);
+
+        Optional<Employer> isEmailExist = getAllEmployers().stream().filter( emp -> emp.getEmail().equals(employer.getEmail())).findFirst();
+        if(!isEmailExist.isPresent()){
+            employerDao.save(employer);
+        }
+        return null;
     }
 
     @Override

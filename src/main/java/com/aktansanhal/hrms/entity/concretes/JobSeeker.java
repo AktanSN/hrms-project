@@ -53,6 +53,11 @@ public class JobSeeker {
     @Transient
     private String passwordRepeat;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "job_position_id")
+    private JobPosition jobPosition;
+
+
 
     /*
     public JobSeeker() {
