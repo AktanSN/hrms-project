@@ -60,6 +60,6 @@ public class Employer {
         this.password = password;
         this.passwordRepeat = passwordRepeat;
     }
-    
+
      */
 }

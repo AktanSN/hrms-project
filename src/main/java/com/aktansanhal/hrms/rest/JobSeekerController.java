@@ -1,7 +1,8 @@
 package com.aktansanhal.hrms.rest;
 
 
-import com.aktansanhal.hrms.core.customException.JobSeekerNotValidException;
+
+import com.aktansanhal.hrms.core.utilities.error.*;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,38 +27,47 @@ public class JobSeekerController {
 
 
     @GetMapping("/JobSeekers")
-    public List<JobSeeker> getAllJobSeekers(){
-        return jobSeekerService.getAllJobSeekers();
+    public DataResult<List<JobSeeker>> getAllJobSeekers(){
+
+        return new SuccessDataResult<List<JobSeeker>>("Listeleme Başarılı",jobSeekerService.getAllJobSeekers());
     }
 
     @GetMapping("/JobSeekers/{jobSeekerId}")
-    public JobSeeker getJobSeekerById(@PathVariable Long jobSeekerId){
+    public DataResult<JobSeeker> getJobSeekerById(@PathVariable Long jobSeekerId){
         JobSeeker jobSeeker = jobSeekerService.getJobSeekerById(jobSeekerId);
         if(jobSeeker == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            return new ErrorDataResult<JobSeeker>("JobSeeker Bulunamadı");
         }
 
-        return jobSeeker;
+        return new SuccessDataResult<JobSeeker>("Listeleme Başarılı", jobSeekerService.getJobSeekerById(jobSeekerId));
     }
 
     @PostMapping("/JobSeekers")
-    public ResponseEntity<Object> createJobSeeker(@RequestBody JobSeeker jobSeeker){
+    public DataResult<JobSeeker> createJobSeeker(@RequestBody JobSeeker jobSeeker){
 
-        jobSeekerService.createJobSeeker(jobSeeker);
-
-        return ResponseEntity.created(null).build();
+        JobSeeker value = jobSeekerService.createJobSeeker(jobSeeker);
+        if(value != null){
+            return new SuccessDataResult<JobSeeker>("İşlem başarılı", value);
+        }
+        return new ErrorDataResult<JobSeeker>("İşlem başarısız");
     }
 
     @DeleteMapping("/JobSeekers/{jobSeekerId}")
-    public ResponseEntity<Object> deleteJobSeeerById(@PathVariable Long jobSeekerId){
-        jobSeekerService.deleteJobSeekerById(jobSeekerId);
+    public Result deleteJobSeeerById(@PathVariable Long jobSeekerId){
+        Long value = jobSeekerService.deleteJobSeekerById(jobSeekerId);
+        if(value == null){
+            return new ErrorResult("Silme işlemi başarısız");
+        }
 
-        return ResponseEntity.noContent().build();
+        return new SuccessResult("Silme işlemi başarılı");
     }
 
     @PutMapping("/JobSeekers/{jobSeekerId}")
-    public JobSeeker updateJobSeekerById(@PathVariable Long jobSeekerId, @RequestBody JobSeeker jobSeeker){
-
-        return jobSeekerService.updateJobSeekerById(jobSeekerId, jobSeeker);
+    public DataResult<JobSeeker> updateJobSeekerById(@PathVariable Long jobSeekerId, @RequestBody JobSeeker jobSeeker){
+        JobSeeker value = jobSeekerService.updateJobSeekerById(jobSeekerId, jobSeeker);
+        if(value != null){
+            return new SuccessDataResult<JobSeeker>("Güncelleme başarılı", value );
+        }
+        return new ErrorDataResult<JobSeeker>("Güncelleme işlemi başarısız");
     }
 }

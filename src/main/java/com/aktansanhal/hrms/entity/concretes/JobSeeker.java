@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -24,28 +25,28 @@ public class JobSeeker {
     private long id;
 
     @Column(name = "first_name")
-    @NotNull
+    @NotBlank
     private String firstName;
 
     @Column(name = "last_name")
-    @NotNull
+    @NotBlank
     private String lastName;
 
     @Column(name = "national_id")
-    @NotNull
-    private String nationalNumber;
+    @NotBlank
+    private Long nationalNumber;
 
     @Column(name = "date_of_birth")
-    @NotNull
-    private LocalDate birthYear;
+    @NotBlank
+    private int birthYear;
 
     @Column(name = "email")
-    @NotNull
+    @NotBlank
     @Email
     private String email;
 
     @Column(name = "password")
-    @NotNull
+    @NotBlank
     @Size(min = 6)
     private String password;
 

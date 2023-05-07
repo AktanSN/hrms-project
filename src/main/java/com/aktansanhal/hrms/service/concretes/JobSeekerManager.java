@@ -3,6 +3,7 @@ package com.aktansanhal.hrms.service.concretes;
 
 import com.aktansanhal.hrms.dao.abstracts.JobSeekerDao;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
+import com.aktansanhal.hrms.mernis.PFQKPSPublicSoap;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,17 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public JobSeeker createJobSeeker(JobSeeker jobSeeker) {
-        return jobSeekerDao.save(jobSeeker);
+        PFQKPSPublicSoap pfqkpsPublicSoap = new PFQKPSPublicSoap();
+
+        try {
+            boolean isSuccess = pfqkpsPublicSoap.TCKimlikNoDogrula(jobSeeker.getNationalNumber(),jobSeeker.getFirstName(),jobSeeker.getLastName(),jobSeeker.getBirthYear());
+            if(isSuccess){
+                return jobSeekerDao.save(jobSeeker);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 
@@ -54,9 +65,10 @@ public class JobSeekerManager implements JobSeekerService {
         JobSeeker jobSeeker = getJobSeekerById(jobSeekerId);
         if(jobSeeker != null){
             jobSeekerDao.deleteById(jobSeekerId);
+            return jobSeekerId;
         }
 
-        return jobSeekerId;
+        return null;
     }
 
     @Override
