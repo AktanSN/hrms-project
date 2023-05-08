@@ -47,6 +47,8 @@ public class Employer {
     @Transient
     private String passwordRepeat;
 
+
+
     /*
     public Employer() {
     }

@@ -14,4 +14,6 @@ public interface JobSeekerService {
     Long deleteJobSeekerById(Long jobSeekerId);
 
     JobSeeker updateJobSeekerById(Long jobSeekerId, JobSeeker jobSeeker);
+
+    List<JobSeeker> getAllWithPage(int paneNumber,int pageSize);
 }

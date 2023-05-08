@@ -8,6 +8,8 @@ import com.aktansanhal.hrms.mernis.PFQKPSPublicSoap;
 import com.aktansanhal.hrms.service.abstracts.JobPositionService;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +45,7 @@ public class JobSeekerManager implements JobSeekerService {
 
             Optional<JobSeeker> isEmailExist = getAllJobSeekers().stream().filter( js -> js.getEmail().equals(jobSeeker.getEmail())).findFirst();
             Optional<JobSeeker> isTcExist = getAllJobSeekers().stream().filter( js -> js.getNationalNumber().equals(jobSeeker.getNationalNumber())).findFirst();
-            if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent()){
+            if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent() && GeneralEmailService.checkEmail(jobSeeker.getEmail())){
                 jobPositionService.createJobPosition(jobSeeker.getJobPosition());
                 return jobSeekerDao.save(jobSeeker);
             }
@@ -88,6 +90,14 @@ public class JobSeekerManager implements JobSeekerService {
            return createJobSeeker(jobSeeker);
         }
         return null;
+    }
+
+    @Override
+    public List<JobSeeker> getAllWithPage(int paneNumber, int pageSize) {
+
+        Pageable page = PageRequest.of(paneNumber,pageSize);
+
+        return jobSeekerDao.findAll(page).getContent();
     }
 
 }

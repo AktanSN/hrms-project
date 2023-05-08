@@ -42,6 +42,11 @@ public class JobSeekerController {
         return new SuccessDataResult<JobSeeker>("Listeleme Başarılı", jobSeekerService.getJobSeekerById(jobSeekerId));
     }
 
+    @GetMapping("/JobSeekers/Page")
+    public DataResult<List<JobSeeker>> getAllJobSeekersByPage(int pageNumber,int pageSize){
+        return new SuccessDataResult<List<JobSeeker>>("Listeleme başarılı", jobSeekerService.getAllWithPage(pageNumber-1,pageSize));
+    }
+
     @PostMapping("/JobSeekers")
     public DataResult<JobSeeker> createJobSeeker(@RequestBody JobSeeker jobSeeker){
 
