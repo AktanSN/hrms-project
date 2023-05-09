@@ -1,10 +1,12 @@
 package com.aktansanhal.hrms.service.concretes;
 
 
+
+
 import com.aktansanhal.hrms.dao.abstracts.JobSeekerDao;
-import com.aktansanhal.hrms.entity.concretes.JobPosition;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
-import com.aktansanhal.hrms.mernis.PFQKPSPublicSoap;
+import com.aktansanhal.hrms.mernis.RDTKPSPublicSoap;
+
 import com.aktansanhal.hrms.service.abstracts.JobPositionService;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class JobSeekerManager implements JobSeekerService {
@@ -38,15 +41,15 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public JobSeeker createJobSeeker(JobSeeker jobSeeker) {
-        PFQKPSPublicSoap pfqkpsPublicSoap = new PFQKPSPublicSoap();
+        RDTKPSPublicSoap pfqkpsPublicSoap = new RDTKPSPublicSoap();
 
         try {
             boolean isSuccess = pfqkpsPublicSoap.TCKimlikNoDogrula(jobSeeker.getNationalNumber(),jobSeeker.getFirstName(),jobSeeker.getLastName(),jobSeeker.getBirthYear());
 
-            Optional<JobSeeker> isEmailExist = getAllJobSeekers().stream().filter( js -> js.getEmail().equals(jobSeeker.getEmail())).findFirst();
+            Optional<JobSeeker> isEmailExist = getAllJobSeekers().stream().filter(js -> js.getEmail().equals(jobSeeker.getEmail())).findFirst();
             Optional<JobSeeker> isTcExist = getAllJobSeekers().stream().filter( js -> js.getNationalNumber().equals(jobSeeker.getNationalNumber())).findFirst();
             if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent() && GeneralEmailService.checkEmail(jobSeeker.getEmail())){
-                jobPositionService.createJobPosition(jobSeeker.getJobPosition());
+
                 return jobSeekerDao.save(jobSeeker);
             }
         } catch (Exception e) {
@@ -98,6 +101,17 @@ public class JobSeekerManager implements JobSeekerService {
         Pageable page = PageRequest.of(paneNumber,pageSize);
 
         return jobSeekerDao.findAll(page).getContent();
+    }
+
+    @Override
+    public List<JobSeeker> getByFirstNameStartsWith(String jobSeekerName) {
+
+        return jobSeekerDao.getByFirstNameStartsWith(jobSeekerName);
+    }
+
+    @Override
+    public List<JobSeeker> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName) {
+        return jobSeekerDao.getByFirstNameOrLastNameContaining(jobSeekerFirstName,jobSeekerLastName);
     }
 
 }

@@ -15,4 +15,10 @@ public interface JobPositionService {
     Long deleteJobPositionById(Long jobPositionId);
 
     JobPosition updateJobPositionById(Long jobPositionId, JobPosition jobPosition);
+
+    List<JobPosition> getByPositionNameStartingWith(String positionName);
+
+    List<JobPosition> getByPositionNameContains(String positionName);
+
+    List<JobPosition> getAllByOrderByPositionNameAsc();
 }

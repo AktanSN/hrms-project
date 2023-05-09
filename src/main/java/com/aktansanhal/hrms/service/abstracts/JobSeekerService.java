@@ -16,4 +16,8 @@ public interface JobSeekerService {
     JobSeeker updateJobSeekerById(Long jobSeekerId, JobSeeker jobSeeker);
 
     List<JobSeeker> getAllWithPage(int paneNumber,int pageSize);
+
+    List<JobSeeker> getByFirstNameStartsWith(String jobSeekerName);
+
+    List<JobSeeker> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName);
 }

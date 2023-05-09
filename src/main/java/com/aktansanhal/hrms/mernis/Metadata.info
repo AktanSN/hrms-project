@@ -4,7 +4,7 @@
     <Version>7.0.2.0</Version>
     <AccountType>Basic</AccountType>
     <LibrariesFolder>easywsdl</LibrariesFolder>
-    <MainClass>PFQKPSPublicSoap</MainClass>
+    <MainClass>RDTKPSPublicSoap</MainClass>
   </Info>
   <Settings>
     <Url>https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx</Url>
@@ -30,20 +30,20 @@
   </Settings>
   <Files>
     <File>docs/Html/MTOMTransfer.html</File>
-    <File>docs/Html/PFQKPSPublicSoap.html</File>
-    <File>docs/Html/PFQKPSPublicSoap12.html</File>
-    <File>docs/Html/PFQKPSPublicSoap12_methods.html</File>
-    <File>docs/Html/PFQKPSPublicSoap_methods.html</File>
+    <File>docs/Html/RDTKPSPublicSoap.html</File>
+    <File>docs/Html/RDTKPSPublicSoap12.html</File>
+    <File>docs/Html/RDTKPSPublicSoap12_methods.html</File>
+    <File>docs/Html/RDTKPSPublicSoap_methods.html</File>
     <File>docs/Html/Tips.html</File>
     <File>docs/Index.html</File>
     <File>docs/Styles/Blueprint_Styles/Style.css</File>
-    <File>PFQDateTimeConverter.java</File>
-    <File>PFQExtendedSoapSerializationEnvelope.java</File>
-    <File>PFQHelper.java</File>
-    <File>PFQKPSPublicSoap.java</File>
-    <File>PFQKPSPublicSoap12.java</File>
-    <File>PFQMarshalGuid.java</File>
-    <File>PFQStandardDateTimeConverter.java</File>
+    <File>RDTDateTimeConverter.java</File>
+    <File>RDTExtendedSoapSerializationEnvelope.java</File>
+    <File>RDTHelper.java</File>
+    <File>RDTKPSPublicSoap.java</File>
+    <File>RDTKPSPublicSoap12.java</File>
+    <File>RDTMarshalGuid.java</File>
+    <File>RDTStandardDateTimeConverter.java</File>
   </Files>
   <Libraries>
     <File>ExKsoap2-1.0.4.0.jar</File>

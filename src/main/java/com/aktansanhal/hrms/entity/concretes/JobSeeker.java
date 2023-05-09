@@ -1,5 +1,6 @@
 package com.aktansanhal.hrms.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,11 +52,11 @@ public class JobSeeker {
     private String password;
 
     @Transient
+    @JsonIgnore
     private String passwordRepeat;
 
-    @ManyToOne()
-    @JoinColumn(name = "job_position_id")
-    private JobPosition jobPosition;
+    @Column(name = "job_position")
+    private String jobPosition;
 
 
 

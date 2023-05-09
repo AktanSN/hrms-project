@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/JobSeeker-Api")
+@RequestMapping("/jobSeeker-api/jobSeekers")
 public class JobSeekerController {
 
     private JobSeekerService jobSeekerService;
@@ -26,13 +26,13 @@ public class JobSeekerController {
 
 
 
-    @GetMapping("/JobSeekers")
+    @GetMapping
     public DataResult<List<JobSeeker>> getAllJobSeekers(){
 
         return new SuccessDataResult<List<JobSeeker>>("Listeleme Başarılı",jobSeekerService.getAllJobSeekers());
     }
 
-    @GetMapping("/JobSeekers/{jobSeekerId}")
+    @GetMapping("/{jobSeekerId}")
     public DataResult<JobSeeker> getJobSeekerById(@PathVariable Long jobSeekerId){
         JobSeeker jobSeeker = jobSeekerService.getJobSeekerById(jobSeekerId);
         if(jobSeeker == null){
@@ -42,12 +42,24 @@ public class JobSeekerController {
         return new SuccessDataResult<JobSeeker>("Listeleme Başarılı", jobSeekerService.getJobSeekerById(jobSeekerId));
     }
 
-    @GetMapping("/JobSeekers/Page")
+    @GetMapping("/page")
     public DataResult<List<JobSeeker>> getAllJobSeekersByPage(int pageNumber,int pageSize){
         return new SuccessDataResult<List<JobSeeker>>("Listeleme başarılı", jobSeekerService.getAllWithPage(pageNumber-1,pageSize));
     }
 
-    @PostMapping("/JobSeekers")
+    @GetMapping("/search-by-name/startsWith")
+    public DataResult<List<JobSeeker>> getByJobSeekerNameStartsWith(@RequestParam String jobSeekerName){
+        return new SuccessDataResult<List<JobSeeker>>("Listeleme başarılı", jobSeekerService.getByFirstNameStartsWith(jobSeekerName));
+    }
+
+    @GetMapping("/search-by-name/contains")
+    public DataResult<List<JobSeeker>> getByFirstNameOrLastNameContaining(@RequestParam String jobSeekerFirstName,@RequestParam String jobSeekerLastName){
+        return new SuccessDataResult<List<JobSeeker>>("Listeleme başarılı", jobSeekerService.getByFirstNameOrLastNameContaining(jobSeekerFirstName,jobSeekerLastName));
+    }
+
+
+
+    @PostMapping
     public DataResult<JobSeeker> createJobSeeker(@RequestBody JobSeeker jobSeeker){
 
         JobSeeker value = jobSeekerService.createJobSeeker(jobSeeker);
@@ -57,7 +69,7 @@ public class JobSeekerController {
         return new ErrorDataResult<JobSeeker>("İşlem başarısız");
     }
 
-    @DeleteMapping("/JobSeekers/{jobSeekerId}")
+    @DeleteMapping("/{jobSeekerId}")
     public Result deleteJobSeeerById(@PathVariable Long jobSeekerId){
         Long value = jobSeekerService.deleteJobSeekerById(jobSeekerId);
         if(value == null){
@@ -67,7 +79,7 @@ public class JobSeekerController {
         return new SuccessResult("Silme işlemi başarılı");
     }
 
-    @PutMapping("/JobSeekers/{jobSeekerId}")
+    @PutMapping("/{jobSeekerId}")
     public DataResult<JobSeeker> updateJobSeekerById(@PathVariable Long jobSeekerId, @RequestBody JobSeeker jobSeeker){
         JobSeeker value = jobSeekerService.updateJobSeekerById(jobSeekerId, jobSeeker);
         if(value != null){

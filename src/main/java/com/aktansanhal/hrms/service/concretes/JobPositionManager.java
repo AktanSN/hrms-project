@@ -68,4 +68,19 @@ public class JobPositionManager implements JobPositionService {
         }
         return null;
     }
+
+    @Override
+    public List<JobPosition> getByPositionNameStartingWith(String positionName) {
+        return jobPositionDao.getByPositionNameStartingWith(positionName);
+    }
+
+    @Override
+    public List<JobPosition> getByPositionNameContains(String positionName) {
+        return jobPositionDao.getByPositionNameContains(positionName);
+    }
+
+    @Override
+    public List<JobPosition> getAllByOrderByPositionNameAsc() {
+        return jobPositionDao.getAllByOrderByPositionNameAsc();
+    }
 }
