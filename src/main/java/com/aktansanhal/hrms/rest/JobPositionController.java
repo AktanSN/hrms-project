@@ -51,7 +51,7 @@ public class JobPositionController {
 
     @GetMapping("/order-by-name")
     public DataResult<List<JobPosition>>  getAllByOrderByPositionNameAsc() {
-        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı", jobPositionService.getAllByOrderByPositionNameAsc());
+        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı.", jobPositionService.getAllByOrderByPositionNameAsc());
     }
 
     @PostMapping
