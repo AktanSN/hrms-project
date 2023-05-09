@@ -28,13 +28,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 
-class SDPSoapFaultEx extends org.ksoap2.SoapFault
+class RDTSoapFaultEx extends org.ksoap2.SoapFault
 {
     public Object fault;
 }
 
 //If you have a compilation error here then you have to add a reference to ExKsoap2.jar to your project (you can find it in Libs folder in the generated zip file)
-public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.serialization.ExSoapSerializationEnvelope {
+public class RDTExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.serialization.ExSoapSerializationEnvelope {
     static HashMap< java.lang.String,java.lang.Class> classNames = new HashMap< java.lang.String, java.lang.Class>();
     public static String TAG="easyWSDL";
 
@@ -42,31 +42,31 @@ public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
     private static final String TYPE_LABEL = "type";
     public boolean enableLogging;
 
-    public static void setDateTimeConverter(SDPDateTimeConverter converter)
+    public static void setDateTimeConverter(RDTDateTimeConverter converter)
     {
         if(converter==null)
         {
-            dateTimeConverter = new SDPStandardDateTimeConverter();
+            dateTimeConverter = new RDTStandardDateTimeConverter();
         }
         dateTimeConverter=converter;
     }
 
-    public static SDPDateTimeConverter getDateTimeConverter()
+    public static RDTDateTimeConverter getDateTimeConverter()
     {
         return dateTimeConverter;
     }
 
-    private static SDPDateTimeConverter dateTimeConverter = new SDPStandardDateTimeConverter();
+    private static RDTDateTimeConverter dateTimeConverter = new RDTStandardDateTimeConverter();
 
-    public SDPExtendedSoapSerializationEnvelope() {
+    public RDTExtendedSoapSerializationEnvelope() {
         this(SoapEnvelope.VER11);
     }
 
-    public SDPExtendedSoapSerializationEnvelope(int soapVersion) {
+    public RDTExtendedSoapSerializationEnvelope(int soapVersion) {
         super(soapVersion);
         implicitTypes = true;
         setAddAdornments(false);
-        new SDPMarshalGuid().register(this);
+        new RDTMarshalGuid().register(this);
         new MarshalFloat().register(this);
     }
 
@@ -120,7 +120,7 @@ public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         if (!type.multiRef && qName[2] == null )
         {
             if (!implicitTypes || (obj.getClass() != type.type && !(obj instanceof Vector ) && type.type!=java.lang.String.class  )) {
-                java.lang.String xmlName=SDPHelper.getKeyByValue(classNames,obj.getClass());
+                java.lang.String xmlName=RDTHelper.getKeyByValue(classNames,obj.getClass());
                 if(xmlName!=null) {
                     java.lang.String[] parts = xmlName.split("\\^\\^");
                     java.lang.String prefix = writer.getPrefix(parts[0], true);
@@ -207,7 +207,7 @@ public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
     }
     private Object createObject(Object soap, Class cl) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object obj=cl.newInstance();
-        Method ctor = obj.getClass().getMethod("loadFromSoap",Object.class,SDPExtendedSoapSerializationEnvelope.class);
+        Method ctor = obj.getClass().getMethod("loadFromSoap",Object.class,RDTExtendedSoapSerializationEnvelope.class);
         ctor.invoke(obj,soap,this);
         return obj;
     }
@@ -326,7 +326,7 @@ public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         {
             return "boolean";
         }
-        java.lang.String xmlName=SDPHelper.getKeyByValue(classNames,obj);
+        java.lang.String xmlName=RDTHelper.getKeyByValue(classNames,obj);
         if(xmlName==null)
         {
             return obj;

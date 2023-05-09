@@ -15,4 +15,10 @@ public interface EmployerService {
     Long deleteEmloyerById(Long employerId);
 
     Employer updateEmployerById(Long employerId, Employer employer);
+
+    List<Employer> getByCompanyNameStartsWith(String companyName);
+
+    List<Employer> getByCompanyNameContains(String companyName);
+
+    List<Employer> getAllByOrderByCompanyNameAsc();
 }

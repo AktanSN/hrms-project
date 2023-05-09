@@ -82,4 +82,19 @@ public class EmployerManager implements EmployerService {
         }
         return null;
     }
+
+    @Override
+    public List<Employer> getByCompanyNameStartsWith(String companyName) {
+        return employerDao.getByCompanyNameStartsWith(companyName);
+    }
+
+    @Override
+    public List<Employer> getByCompanyNameContains(String companyName) {
+        return employerDao.getByCompanyNameContains(companyName);
+    }
+
+    @Override
+    public List<Employer> getAllByOrderByCompanyNameAsc() {
+        return employerDao.getAllByOrderByCompanyNameAsc();
+    }
 }

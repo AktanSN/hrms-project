@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/JobPosition-Api")
+@RequestMapping("/jobPosition-api/jobPositions")
 public class JobPositionController {
 
     private JobPositionService jobPositionService;
@@ -24,12 +24,12 @@ public class JobPositionController {
     }
 
 
-    @GetMapping("/JobPositions")
+    @GetMapping
     public DataResult<List<JobPosition>> getAllJobPositions(){
         return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı",jobPositionService.getAllJobPositions());
     }
 
-    @GetMapping("/JobPositions/{jobPositionId}")
+    @GetMapping("/{jobPositionId}")
     public DataResult<JobPosition> getJobPositionById(@PathVariable Long jobPositionId){
         JobPosition jobPosition = jobPositionService.getJobPositionById(jobPositionId);
         if(jobPosition == null){
@@ -39,7 +39,22 @@ public class JobPositionController {
         return new SuccessDataResult<JobPosition>("İşlem Başarılı", jobPosition);
     }
 
-    @PostMapping("/JobPositions")
+    @GetMapping("/search-by-name/startsWith")
+    public DataResult<List<JobPosition>> getByPositionNameStartingWith(@RequestParam String positionName){
+        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı", jobPositionService.getByPositionNameStartingWith(positionName));
+    }
+
+    @GetMapping("/search-by-name/contains")
+    public DataResult<List<JobPosition>> getByPositionNameContains(@RequestParam String positionName) {
+        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı", jobPositionService.getByPositionNameContains(positionName));
+    }
+
+    @GetMapping("/order-by-name")
+    public DataResult<List<JobPosition>>  getAllByOrderByPositionNameAsc() {
+        return new SuccessDataResult<List<JobPosition>>("Listeleme başarılı", jobPositionService.getAllByOrderByPositionNameAsc());
+    }
+
+    @PostMapping
     public DataResult<JobPosition> createJobPosition(@RequestBody JobPosition jobPosition){
 
         JobPosition isSuccess = jobPositionService.createJobPosition(jobPosition);
@@ -51,7 +66,7 @@ public class JobPositionController {
 
     }
 
-    @DeleteMapping("/JobPositions/{jobPositionId}")
+    @DeleteMapping("/{jobPositionId}")
     public Result deleteJobPositionById(@PathVariable Long jobPositionId){
 
         Long isSuccess = jobPositionService.deleteJobPositionById(jobPositionId);
@@ -62,7 +77,7 @@ public class JobPositionController {
 
     }
 
-    @PutMapping("/JobPositions/{jobPositionId}")
+    @PutMapping("/{jobPositionId}")
     public DataResult<JobPosition> updateJobPositionById(@PathVariable Long jobPositionId, @RequestBody JobPosition jobPosition){
 
         JobPosition isSuccess = jobPositionService.updateJobPositionById(jobPositionId,jobPosition);

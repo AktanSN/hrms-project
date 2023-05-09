@@ -15,7 +15,7 @@ import java.util.Locale;
 
 
 
-public class SDPStandardDateTimeConverter implements SDPDateTimeConverter
+public class RDTStandardDateTimeConverter implements RDTDateTimeConverter
 {
     public java.util.TimeZone TimeZone=java.util.TimeZone.getTimeZone("UTC");
 

@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Employer-Api")
+@RequestMapping("/employer-api/employers")
 public class EmployerController {
 
     private EmployerService employerService;
@@ -25,13 +25,13 @@ public class EmployerController {
 
 
 
-    @GetMapping("/Employers")
+    @GetMapping
     public DataResult<List<Employer>> getAllEmployers(){
 
         return new SuccessDataResult<List<Employer>>("Listeleme Başarılı", employerService.getAllEmployers());
     }
 
-    @GetMapping("/Employers/{employerId}")
+    @GetMapping("/{employerId}")
     public DataResult<Employer> getEmployerById(@PathVariable Long employerId){
         Employer employer = employerService.getEmployerById(employerId);
 
@@ -42,7 +42,22 @@ public class EmployerController {
         return new SuccessDataResult<Employer>("İşlem başarılı",employer );
     }
 
-    @PostMapping("/Employers")
+    @GetMapping("/search-by-name/startsWith")
+    public DataResult<List<Employer>> getByCompanyNameStartsWith(@RequestParam String companyName) {
+        return new SuccessDataResult<List<Employer>>("Listeleme başarılı", employerService.getByCompanyNameStartsWith(companyName));
+    }
+
+    @GetMapping("/search-by-name/contains")
+    public DataResult<List<Employer>> getByCompanyNameContains(@RequestParam String companyName) {
+        return new SuccessDataResult<List<Employer>>("Listeleme başarılı", employerService.getByCompanyNameContains(companyName));
+    }
+
+    @GetMapping("/order-by-name")
+    public DataResult<List<Employer>> getAllByOrderByCompanyNameAsc() {
+        return new SuccessDataResult<List<Employer>>("Listeleme başarılı", employerService.getAllByOrderByCompanyNameAsc());
+    }
+
+    @PostMapping
     public DataResult<Employer> createEmployer(@RequestBody Employer employer){
         Employer isSuccess = employerService.createEmployer(employer);
         if(isSuccess == null){
@@ -51,7 +66,7 @@ public class EmployerController {
         return new SuccessDataResult<Employer>("Kayıt başarılı",isSuccess);
     }
 
-    @DeleteMapping("/Employers/{employerId}")
+    @DeleteMapping("/{employerId}")
     public Result deleteEmployerById(@PathVariable Long employerId){
 
         Long isSuccess = employerService.deleteEmloyerById(employerId);
@@ -62,7 +77,7 @@ public class EmployerController {
 
     }
 
-    @PutMapping("/Employers/{employerId}")
+    @PutMapping("/{employerId}")
     public DataResult<Employer> updateEmployerById(@PathVariable Long employerId,@RequestBody Employer employer){
         Employer isSuccess = employerService.updateEmployerById(employerId,employer);
         if(isSuccess == null){
