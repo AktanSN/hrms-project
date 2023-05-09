@@ -4,7 +4,8 @@ package com.aktansanhal.hrms.service.concretes;
 import com.aktansanhal.hrms.dao.abstracts.JobSeekerDao;
 import com.aktansanhal.hrms.entity.concretes.JobPosition;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
-import com.aktansanhal.hrms.mernis.PFQKPSPublicSoap;
+
+import com.aktansanhal.hrms.mernis.SDPKPSPublicSoap;
 import com.aktansanhal.hrms.service.abstracts.JobPositionService;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class JobSeekerManager implements JobSeekerService {
 
     @Override
     public JobSeeker createJobSeeker(JobSeeker jobSeeker) {
-        PFQKPSPublicSoap pfqkpsPublicSoap = new PFQKPSPublicSoap();
+        SDPKPSPublicSoap pfqkpsPublicSoap = new SDPKPSPublicSoap();
 
         try {
             boolean isSuccess = pfqkpsPublicSoap.TCKimlikNoDogrula(jobSeeker.getNationalNumber(),jobSeeker.getFirstName(),jobSeeker.getLastName(),jobSeeker.getBirthYear());
@@ -46,7 +47,7 @@ public class JobSeekerManager implements JobSeekerService {
             Optional<JobSeeker> isEmailExist = getAllJobSeekers().stream().filter( js -> js.getEmail().equals(jobSeeker.getEmail())).findFirst();
             Optional<JobSeeker> isTcExist = getAllJobSeekers().stream().filter( js -> js.getNationalNumber().equals(jobSeeker.getNationalNumber())).findFirst();
             if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent() && GeneralEmailService.checkEmail(jobSeeker.getEmail())){
-                jobPositionService.createJobPosition(jobSeeker.getJobPosition());
+
                 return jobSeekerDao.save(jobSeeker);
             }
         } catch (Exception e) {

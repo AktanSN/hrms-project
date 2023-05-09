@@ -12,7 +12,7 @@ package com.aktansanhal.hrms.mernis;
 import java.util.Date;
 
 
-public interface PFQDateTimeConverter
+public interface SDPDateTimeConverter
 {
     java.util.Date convertDateTime(String strDate);
     java.util.Date convertTime(String strDate);

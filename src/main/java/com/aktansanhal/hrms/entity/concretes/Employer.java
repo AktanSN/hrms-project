@@ -1,5 +1,6 @@
 package com.aktansanhal.hrms.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "employers")
@@ -45,7 +48,11 @@ public class Employer {
     private String password;
 
     @Transient
+    @JsonIgnore
     private String passwordRepeat;
+
+    @OneToMany(mappedBy = "employer")
+    private List<JobPosition> jobPosition;
 
 
 

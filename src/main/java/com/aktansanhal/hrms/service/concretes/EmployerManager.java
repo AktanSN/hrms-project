@@ -1,8 +1,11 @@
 package com.aktansanhal.hrms.service.concretes;
 
 import com.aktansanhal.hrms.dao.abstracts.EmployerDao;
+import com.aktansanhal.hrms.dao.abstracts.JobPositionDao;
 import com.aktansanhal.hrms.entity.concretes.Employer;
+import com.aktansanhal.hrms.entity.concretes.JobPosition;
 import com.aktansanhal.hrms.service.abstracts.EmployerService;
+import com.aktansanhal.hrms.service.abstracts.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +19,16 @@ public class EmployerManager implements EmployerService {
     private EmployerDao employerDao;
 
     @Autowired
-    public EmployerManager(EmployerDao employerDao) {
+    private JobPositionService jobPositionService;
+
+    private JobPositionDao jobPositionDao;
+
+
+    @Autowired
+    public EmployerManager(EmployerDao employerDao,
+                           JobPositionDao jobPositionDao) {
         this.employerDao = employerDao;
+        this.jobPositionDao = jobPositionDao;
     }
 
     @Override
@@ -41,8 +52,9 @@ public class EmployerManager implements EmployerService {
     public Employer createEmployer(Employer employer) {
 
         Optional<Employer> isEmailExist = getAllEmployers().stream().filter( emp -> emp.getEmail().equals(employer.getEmail())).findFirst();
-        System.out.println(CompanyEmailService.checkEmail(employer.getEmail()));
+
         if(!isEmailExist.isPresent() && CompanyEmailService.checkEmail(employer.getEmail())){
+            jobPositionService.createJobPosition(employer.getJobPosition().get(0));
             return employerDao.save(employer);
         }
         return null;

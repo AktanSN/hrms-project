@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>PFQKPSPublicSoap12 class</title>
+    <title>SDPKPSPublicSoap class</title>
 
 <link rel='stylesheet' type='text/css' href='../Styles/Blueprint_Styles/Style.css' />
 <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.5.0/styles/default.min.css">
@@ -18,9 +18,9 @@
     }
 </style></head>
     <body>
-        <h2>PFQKPSPublicSoap12 </h2>
+        <h2>SDPKPSPublicSoap </h2>
         
-        <p><strong>SOAP Version: 1.2</strong></p>
+        <p><strong>SOAP Version: 1.1</strong></p>
         <p>Main class which you can use to connect to your web service</p>
         
         <h3>Important settings</h3>
@@ -30,7 +30,7 @@
                 Example:<br />
                 <pre >
                     <code class="java">
-PFQKPSPublicSoap12 service = new PFQKPSPublicSoap12(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx",30000);
+SDPKPSPublicSoap service = new SDPKPSPublicSoap(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx",30000);
 service.TCKimlikNoDogrula();
                     </code>
         
@@ -41,7 +41,7 @@ service.TCKimlikNoDogrula();
                 Example:<br />
                 <pre >
                     <code class="java">
-PFQKPSPublicSoap12 service = new PFQKPSPublicSoap12(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx");
+SDPKPSPublicSoap service = new SDPKPSPublicSoap(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx");
 service.TCKimlikNoDogrula();
                     </code>
         
@@ -52,7 +52,7 @@ service.TCKimlikNoDogrula();
                 Example:<br/>
                 <pre >
                     <code class="java">
-PFQKPSPublicSoap12 service = new PFQKPSPublicSoap12();
+SDPKPSPublicSoap service = new SDPKPSPublicSoap();
 service.httpHeaders.add( new HeaderProperty("Authorization","Basic QWxhZGRpbjpPcGVuU2VzYW1l"));
 service.TCKimlikNoDogrula();
                     </code>
@@ -65,7 +65,7 @@ service.TCKimlikNoDogrula();
                 Example:<br />
                 <pre >
                     <code class="java">
-PFQKPSPublicSoap12 service = new PFQKPSPublicSoap12();
+SDPKPSPublicSoap service = new SDPKPSPublicSoap();
 service.enableLogging=true;
 service.TCKimlikNoDogrula();
                     </code>
@@ -75,7 +75,7 @@ service.TCKimlikNoDogrula();
         
         <h3>Methods</h3>
         <ul>
-                <li><a href="PFQKPSPublicSoap12_methods.html#TCKimlikNoDogrula">TCKimlikNoDogrula</a></li>
+                <li><a href="SDPKPSPublicSoap_methods.html#TCKimlikNoDogrula">TCKimlikNoDogrula</a></li>
         </ul>
     </body>
 </html>

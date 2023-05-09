@@ -28,13 +28,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 
-class PFQSoapFaultEx extends org.ksoap2.SoapFault
+class SDPSoapFaultEx extends org.ksoap2.SoapFault
 {
     public Object fault;
 }
 
 //If you have a compilation error here then you have to add a reference to ExKsoap2.jar to your project (you can find it in Libs folder in the generated zip file)
-public class PFQExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.serialization.ExSoapSerializationEnvelope {
+public class SDPExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.serialization.ExSoapSerializationEnvelope {
     static HashMap< java.lang.String,java.lang.Class> classNames = new HashMap< java.lang.String, java.lang.Class>();
     public static String TAG="easyWSDL";
 
@@ -42,31 +42,31 @@ public class PFQExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
     private static final String TYPE_LABEL = "type";
     public boolean enableLogging;
 
-    public static void setDateTimeConverter(PFQDateTimeConverter converter)
+    public static void setDateTimeConverter(SDPDateTimeConverter converter)
     {
         if(converter==null)
         {
-            dateTimeConverter = new PFQStandardDateTimeConverter();
+            dateTimeConverter = new SDPStandardDateTimeConverter();
         }
         dateTimeConverter=converter;
     }
 
-    public static PFQDateTimeConverter getDateTimeConverter()
+    public static SDPDateTimeConverter getDateTimeConverter()
     {
         return dateTimeConverter;
     }
 
-    private static PFQDateTimeConverter dateTimeConverter = new PFQStandardDateTimeConverter();
+    private static SDPDateTimeConverter dateTimeConverter = new SDPStandardDateTimeConverter();
 
-    public PFQExtendedSoapSerializationEnvelope() {
+    public SDPExtendedSoapSerializationEnvelope() {
         this(SoapEnvelope.VER11);
     }
 
-    public PFQExtendedSoapSerializationEnvelope(int soapVersion) {
+    public SDPExtendedSoapSerializationEnvelope(int soapVersion) {
         super(soapVersion);
         implicitTypes = true;
         setAddAdornments(false);
-        new PFQMarshalGuid().register(this);
+        new SDPMarshalGuid().register(this);
         new MarshalFloat().register(this);
     }
 
@@ -120,7 +120,7 @@ public class PFQExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         if (!type.multiRef && qName[2] == null )
         {
             if (!implicitTypes || (obj.getClass() != type.type && !(obj instanceof Vector ) && type.type!=java.lang.String.class  )) {
-                java.lang.String xmlName=PFQHelper.getKeyByValue(classNames,obj.getClass());
+                java.lang.String xmlName=SDPHelper.getKeyByValue(classNames,obj.getClass());
                 if(xmlName!=null) {
                     java.lang.String[] parts = xmlName.split("\\^\\^");
                     java.lang.String prefix = writer.getPrefix(parts[0], true);
@@ -207,7 +207,7 @@ public class PFQExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
     }
     private Object createObject(Object soap, Class cl) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         Object obj=cl.newInstance();
-        Method ctor = obj.getClass().getMethod("loadFromSoap",Object.class,PFQExtendedSoapSerializationEnvelope.class);
+        Method ctor = obj.getClass().getMethod("loadFromSoap",Object.class,SDPExtendedSoapSerializationEnvelope.class);
         ctor.invoke(obj,soap,this);
         return obj;
     }
@@ -326,7 +326,7 @@ public class PFQExtendedSoapSerializationEnvelope extends com.easywsdl.exksoap2.
         {
             return "boolean";
         }
-        java.lang.String xmlName=PFQHelper.getKeyByValue(classNames,obj);
+        java.lang.String xmlName=SDPHelper.getKeyByValue(classNames,obj);
         if(xmlName==null)
         {
             return obj;

@@ -15,7 +15,7 @@ import java.util.Locale;
 
 
 
-public class PFQStandardDateTimeConverter implements PFQDateTimeConverter
+public class SDPStandardDateTimeConverter implements SDPDateTimeConverter
 {
     public java.util.TimeZone TimeZone=java.util.TimeZone.getTimeZone("UTC");
 
