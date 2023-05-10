@@ -51,10 +51,12 @@ public class Employer {
     @JsonIgnore
     private String passwordRepeat;
 
+
+
+
+    @JsonIgnore
     @OneToMany(mappedBy = "employer")
-    private List<JobPosition> jobPosition;
-
-
+    private List<JobAdvertisement> jobAdvertisement;
 
     /*
     public Employer() {

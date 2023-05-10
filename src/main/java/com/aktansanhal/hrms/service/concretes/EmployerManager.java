@@ -54,7 +54,7 @@ public class EmployerManager implements EmployerService {
         Optional<Employer> isEmailExist = getAllEmployers().stream().filter( emp -> emp.getEmail().equals(employer.getEmail())).findFirst();
 
         if(!isEmailExist.isPresent() && CompanyEmailService.checkEmail(employer.getEmail())){
-            jobPositionService.createJobPosition(employer.getJobPosition().get(0));
+            //jobPositionService.createJobPosition(employer.getJobPosition().get(0));
             return employerDao.save(employer);
         }
         return null;
