@@ -13,4 +13,6 @@ public interface JobAdvertisementService {
 
     DataResult<List<JobAdvertisement>> getAllByStatusTrueOrderByStartDateAsc();
 
+    DataResult<List<JobAdvertisement>> getAllByStatusTrue();
+    DataResult<List<JobAdvertisement>> getJobAdvertisementsByEmployer_CompanyName(String companyName);
 }

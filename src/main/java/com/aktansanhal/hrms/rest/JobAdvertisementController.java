@@ -7,6 +7,7 @@ import com.aktansanhal.hrms.entity.concretes.JobAdvertisement;
 import com.aktansanhal.hrms.service.abstracts.JobAdvertisementService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,16 @@ public class JobAdvertisementController {
     @GetMapping("/getAllByOrderByStartDateAsc")
     public DataResult<List<JobAdvertisement>> getAllByStatusTrueOrderByStartDateAsc(){
         return jobAdvertisementService.getAllByStatusTrueOrderByStartDateAsc();
+    }
+
+    @GetMapping("/geAllByStatusTrue")
+    public DataResult<List<JobAdvertisement>> getAllByStatusTrue(){
+        return jobAdvertisementService.getAllByStatusTrue();
+    }
+
+    @GetMapping("/getByCompanyName")
+    public DataResult<List<JobAdvertisement>> getJobAdvertisementsByCompanyName(@RequestParam String companyName){
+        return jobAdvertisementService.getJobAdvertisementsByEmployer_CompanyName(companyName);
     }
 
 

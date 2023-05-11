@@ -36,5 +36,15 @@ public class JobAdvertisementManager implements JobAdvertisementService {
         return new SuccessDataResult<List<JobAdvertisement>>("Listelendi", jobAdvertisementDAO.getAllByStatusTrueOrderByStartDateAsc());
     }
 
+    @Override
+    public DataResult<List<JobAdvertisement>> getAllByStatusTrue() {
+        return new SuccessDataResult<List<JobAdvertisement>>("Listelendi", jobAdvertisementDAO.getAllByStatusTrue());
+    }
+
+    @Override
+    public DataResult<List<JobAdvertisement>> getJobAdvertisementsByEmployer_CompanyName(String companyName) {
+        return new SuccessDataResult<List<JobAdvertisement>>("Listelendi", jobAdvertisementDAO.getJobAdvertisementsByEmployer_CompanyName(companyName));
+    }
+
 
 }

@@ -24,6 +24,7 @@ public class JobAdvertisement {
     @Column(name = "min_salary")
     private int minSalary;
 
+
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
