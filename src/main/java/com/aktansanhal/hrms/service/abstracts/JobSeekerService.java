@@ -1,23 +1,23 @@
 package com.aktansanhal.hrms.service.abstracts;
 
-import com.aktansanhal.hrms.entity.concretes.JobSeeker;
-import org.springframework.http.ResponseEntity;
+import com.aktansanhal.hrms.dto.concretes.JobSeekerRequestDTO;
+import com.aktansanhal.hrms.dto.concretes.JobSeekerResponseDTO;
 
 import java.util.List;
 
 public interface JobSeekerService {
-    JobSeeker getJobSeekerById(Long jobSeekerId);
-    List<JobSeeker> getAllJobSeekers();
+    JobSeekerResponseDTO getJobSeekerById(Long jobSeekerId);
+    List<JobSeekerResponseDTO> getAllJobSeekers();
 
-    JobSeeker createJobSeeker(JobSeeker jobSeeker);
+    JobSeekerResponseDTO createJobSeeker(JobSeekerRequestDTO jobSeekerRequestDTO);
 
     Long deleteJobSeekerById(Long jobSeekerId);
 
-    JobSeeker updateJobSeekerById(Long jobSeekerId, JobSeeker jobSeeker);
+    JobSeekerResponseDTO updateJobSeekerById(Long jobSeekerId, JobSeekerRequestDTO jobSeekerRequestDTO);
 
-    List<JobSeeker> getAllWithPage(int paneNumber,int pageSize);
+    List<JobSeekerResponseDTO> getAllWithPage(int paneNumber,int pageSize);
 
-    List<JobSeeker> getByFirstNameStartsWith(String jobSeekerName);
+    List<JobSeekerResponseDTO> getByFirstNameStartsWith(String jobSeekerName);
 
-    List<JobSeeker> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName);
+    List<JobSeekerResponseDTO> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName);
 }

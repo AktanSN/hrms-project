@@ -4,19 +4,21 @@ package com.aktansanhal.hrms.service.concretes;
 
 
 import com.aktansanhal.hrms.dao.abstracts.JobSeekerDao;
+import com.aktansanhal.hrms.dto.abstracts.JobSeekerMapper;
+import com.aktansanhal.hrms.dto.concretes.JobSeekerRequestDTO;
+import com.aktansanhal.hrms.dto.concretes.JobSeekerResponseDTO;
 import com.aktansanhal.hrms.entity.concretes.JobSeeker;
 import com.aktansanhal.hrms.mernis.RDTKPSPublicSoap;
 
 import com.aktansanhal.hrms.service.abstracts.JobPositionService;
 import com.aktansanhal.hrms.service.abstracts.JobSeekerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,33 +26,33 @@ public class JobSeekerManager implements JobSeekerService {
 
     private JobSeekerDao jobSeekerDao;
 
-    @Autowired
+    private final JobSeekerMapper jobSeekerMapper;
+
     private JobPositionService jobPositionService;
 
-    @Autowired
-    public JobSeekerManager(JobSeekerDao jobSeekerDao) {
+    public JobSeekerManager(JobSeekerDao jobSeekerDao, JobSeekerMapper jobSeekerMapper, JobPositionService jobPositionService) {
         this.jobSeekerDao = jobSeekerDao;
-    }
-
-
-
-    @Override
-    public List<JobSeeker> getAllJobSeekers() {
-        return this.jobSeekerDao.findAll();
+        this.jobSeekerMapper = jobSeekerMapper;
+        this.jobPositionService = jobPositionService;
     }
 
     @Override
-    public JobSeeker createJobSeeker(JobSeeker jobSeeker) {
+    public List<JobSeekerResponseDTO> getAllJobSeekers() {
+        return this.jobSeekerDao.findAll().stream().map(js -> jobSeekerMapper.jobSeekerToJobSeekerResponse(js)).collect(Collectors.toList());
+    }
+
+    @Override
+    public JobSeekerResponseDTO createJobSeeker(JobSeekerRequestDTO jobSeekerRequestDTO) {
         RDTKPSPublicSoap pfqkpsPublicSoap = new RDTKPSPublicSoap();
 
         try {
-            boolean isSuccess = pfqkpsPublicSoap.TCKimlikNoDogrula(jobSeeker.getNationalNumber(),jobSeeker.getFirstName(),jobSeeker.getLastName(),jobSeeker.getBirthYear());
+            boolean isSuccess = pfqkpsPublicSoap.TCKimlikNoDogrula(jobSeekerRequestDTO.nationalNumber(),jobSeekerRequestDTO.firstName(),jobSeekerRequestDTO.lastName(),jobSeekerRequestDTO.birthYear());
 
-            Optional<JobSeeker> isEmailExist = getAllJobSeekers().stream().filter(js -> js.getEmail().equals(jobSeeker.getEmail())).findFirst();
-            Optional<JobSeeker> isTcExist = getAllJobSeekers().stream().filter( js -> js.getNationalNumber().equals(jobSeeker.getNationalNumber())).findFirst();
-            if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent() && GeneralEmailService.checkEmail(jobSeeker.getEmail())){
-
-                return jobSeekerDao.save(jobSeeker);
+            Optional<JobSeekerResponseDTO> isEmailExist = getAllJobSeekers().stream().filter(js -> js.email().equals(jobSeekerRequestDTO.email())).findFirst();
+            Optional<JobSeekerResponseDTO> isTcExist = getAllJobSeekers().stream().filter( js -> js.nationalNumber().equals(jobSeekerRequestDTO.nationalNumber())).findFirst();
+            if(isSuccess && !isEmailExist.isPresent() && !isTcExist.isPresent() && GeneralEmailService.checkEmail(jobSeekerRequestDTO.email())){
+                JobSeeker jobSeeker = jobSeekerDao.save(jobSeekerMapper.jobSeekerRequestToJobSeeker(jobSeekerRequestDTO));
+                return jobSeekerMapper.jobSeekerToJobSeekerResponse(jobSeeker);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -61,11 +63,11 @@ public class JobSeekerManager implements JobSeekerService {
 
 
     @Override
-    public JobSeeker getJobSeekerById(Long jobSeekerId) {
+    public JobSeekerResponseDTO getJobSeekerById(Long jobSeekerId) {
 
-        List<JobSeeker> jobSeekers = getAllJobSeekers();
+        List<JobSeekerResponseDTO> jobSeekers = getAllJobSeekers();
 
-        Optional<JobSeeker> optionalJobSeeker = jobSeekers.stream().filter(jobSeeker -> jobSeeker.getId() == jobSeekerId).findFirst();
+        Optional<JobSeekerResponseDTO> optionalJobSeeker = jobSeekers.stream().filter(jobSeeker -> jobSeeker.id() == jobSeekerId).findFirst();
 
         if(optionalJobSeeker.isEmpty()){
             return null;
@@ -76,7 +78,7 @@ public class JobSeekerManager implements JobSeekerService {
     @Override
     public Long deleteJobSeekerById(Long jobSeekerId) {
 
-        JobSeeker jobSeeker = getJobSeekerById(jobSeekerId);
+        JobSeekerResponseDTO jobSeeker = getJobSeekerById(jobSeekerId);
         if(jobSeeker != null){
             jobSeekerDao.deleteById(jobSeekerId);
             return jobSeekerId;
@@ -86,32 +88,32 @@ public class JobSeekerManager implements JobSeekerService {
     }
 
     @Override
-    public JobSeeker updateJobSeekerById(Long jobSeekerId, JobSeeker jobSeeker) {
-        JobSeeker jobSeekerCheck = getJobSeekerById(jobSeekerId);
+    public JobSeekerResponseDTO updateJobSeekerById(Long jobSeekerId, JobSeekerRequestDTO jobSeekerRequestDTO) {
+        JobSeekerResponseDTO jobSeekerCheck = getJobSeekerById(jobSeekerId);
         if(jobSeekerCheck != null){
            jobSeekerDao.deleteById(jobSeekerId);
-           return createJobSeeker(jobSeeker);
+           return createJobSeeker(jobSeekerRequestDTO);
         }
         return null;
     }
 
     @Override
-    public List<JobSeeker> getAllWithPage(int paneNumber, int pageSize) {
+    public List<JobSeekerResponseDTO> getAllWithPage(int paneNumber, int pageSize) {
 
         Pageable page = PageRequest.of(paneNumber,pageSize);
 
-        return jobSeekerDao.findAll(page).getContent();
+        return jobSeekerDao.findAll(page).getContent().stream().map(js -> jobSeekerMapper.jobSeekerToJobSeekerResponse(js)).collect(Collectors.toList());
     }
 
     @Override
-    public List<JobSeeker> getByFirstNameStartsWith(String jobSeekerName) {
+    public List<JobSeekerResponseDTO> getByFirstNameStartsWith(String jobSeekerName) {
 
-        return jobSeekerDao.getByFirstNameStartsWith(jobSeekerName);
+        return jobSeekerDao.getByFirstNameStartsWith(jobSeekerName).stream().map(js -> jobSeekerMapper.jobSeekerToJobSeekerResponse(js)).collect(Collectors.toList());
     }
 
     @Override
-    public List<JobSeeker> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName) {
-        return jobSeekerDao.getByFirstNameOrLastNameContaining(jobSeekerFirstName,jobSeekerLastName);
+    public List<JobSeekerResponseDTO> getByFirstNameOrLastNameContaining(String jobSeekerFirstName,String jobSeekerLastName) {
+        return jobSeekerDao.getByFirstNameOrLastNameContaining(jobSeekerFirstName,jobSeekerLastName).stream().map(js-> jobSeekerMapper.jobSeekerToJobSeekerResponse(js)).collect(Collectors.toList());
     }
 
 }
